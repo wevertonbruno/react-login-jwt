@@ -1,6 +1,11 @@
 import React from 'react';
 import Routes from './routes';
 
-const App = () => <Routes />;
+
+//https://blog.rocketseat.com.br/reactjs-autenticacao/
+
+const App = () => (
+  <Routes />
+);
 
 export default App;
