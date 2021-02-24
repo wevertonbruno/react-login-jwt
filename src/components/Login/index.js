@@ -3,40 +3,37 @@ import { Link, withRouter } from 'react-router-dom';
 import { Form, Container } from './styles';
 
 import api from '../../services/api';
+import { login } from './../../services/auth';
 import Logo from '../../assets/logo.svg';
 
-class Register extends Component{
+class Login extends Component{
     state ={
-        username: "",
         email: "",
         password: "",
-        password_confirmation: "",
         error: ""
     };
 
     handleSubmit = async e => {
         e.preventDefault();
 
-        const { username, email, password, password_confirmation } = this.state;
+        const { email, password } = this.state;
 
-        if (!username || !email || !password) {
+        if  ( !email || !password) {
             this.setState({ error: "Preencha todos os dados para se cadastrar" });
         }
 
-        else if(password !== password_confirmation)
-            this.setState({ error: "As senhas informadas não são iguais" });
-
         else{
             try {
-                await api.post("/auth/register", {username, email, password, password_confirmation});
-                this.props.history.push("/");
+                
+                const response = await api.post("/auth/login", {email, password});
+                login(response.data.token);
+                this.props.history.push("/dashboard");
+
             } catch (err) {
                 console.log(err);
-                this.setState({ error: "Ocorreu um erro ao registrar sua conta." });
+                this.setState({ error: "An error has occurred processing your login. please try again..." });
             }
         }
-
-        
     };
 
     handleChange = e => {
@@ -52,13 +49,6 @@ class Register extends Component{
                     {this.state.error && <p>{this.state.error}</p>}
 
                     <input 
-                        type="text"
-                        name="username"
-                        placeholder="Username"
-                        onChange={this.handleChange}
-                    />
-
-                    <input 
                         type="email"
                         name="email"
                         placeholder="E-Mail"
@@ -72,18 +62,11 @@ class Register extends Component{
                         onChange={this.handleChange}
                     />
 
-                    <input 
-                        type="password"
-                        name="password_confirmation"
-                        placeholder="Confirm your Password"
-                        onChange={this.handleChange}
-                    />
-
-                    <button type="submit">Register</button>
+                    <button type="submit">Login</button>
 
                     <hr/>
 
-                    <Link to="/">Already registered? Log in!</Link>
+                    <Link to="/register">Don't have an account? Register!</Link>
 
                 </Form>
             </Container>
@@ -91,4 +74,4 @@ class Register extends Component{
     }
 }
 
-export default withRouter(Register);
+export default withRouter(Login);

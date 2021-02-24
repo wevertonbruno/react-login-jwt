@@ -3,6 +3,9 @@ import { BrowserRouter, Link, Switch, Redirect, Route } from 'react-router-dom';
 import { isAuthenticated } from './services/auth';
 
 import Register from './components/Register';
+import Login from './components/Login';
+import NotFound from './components/NotFound';
+import Dashboard from './components/Dashboard';
 
 console.log(isAuthenticated());
 
@@ -22,10 +25,10 @@ const PrivateRoute = ({ component: Component, ...rest}) => (
 const Routes = () => (
     <BrowserRouter>
         <Switch>
-            <Route exact path="/" component={ () => <h1>Login</h1> } />
+            <Route exact path="/" component={ Login } />
             <Route path="/register" component={ Register } />
-            <PrivateRoute path="/home" component={ () => <h1>Home</h1> } />
-            <Route path="*" component={ () => <h1>Page Not Found</h1> } />
+            <PrivateRoute path="/dashboard" component={ Dashboard } />
+            <Route path="*" component={ NotFound } />
         </Switch>
     </BrowserRouter>
 );

@@ -5,7 +5,7 @@ import Routes from './routes';
 //https://blog.rocketseat.com.br/reactjs-autenticacao/
 
 const App = () => (
-  <Routes />
+    <Routes />
 );
 
 export default App;
