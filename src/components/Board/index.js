@@ -27,8 +27,18 @@ const Board = () => {
         }));
     }
 
+    function moveList(fromList, toList, item){
+        setLists(produce(lists, draft => {
+            
+            const dragged = draft[fromList].cards[item];
+            draft[fromList].cards.splice(item, 1);
+            draft[toList].cards.push(dragged); //problema
+
+        }));
+    }
+
     return (
-        <BoardContext.Provider value={{ lists, move }}>
+        <BoardContext.Provider value={{ lists, move, moveList }}>
             <Container>
                 {loading ? (
                 <h1>Loading</h1> ) : (
